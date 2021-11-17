@@ -1,0 +1,9 @@
+@import '../../Styles/vars';
+@import '../../Styles/mixins';
+
+.user-container {
+  .fa-plus {
+    margin-right: 10px;
+    color: white;
+  }
+}

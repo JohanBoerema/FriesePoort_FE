@@ -1,6 +1,7 @@
 .side-bar__div {
   @media (min-width: 1300px) {
     width: 280px;
+    position: absolute;
   }
   .sidebar {
     position: absolute;
@@ -257,6 +258,7 @@
 }
 
 .header__controls {
+  display: none;
   width: 220px;
   position: absolute;
   z-index: 10;
@@ -266,7 +268,7 @@
   padding: 30px 20px;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  // display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -365,13 +367,19 @@
 .select-lang-class {
   padding-top: 5px;
   padding-right: 5px;
-  width: 79px;
+  width: 80px;
+  font-style: normal;
+  font-weight: 500;
+  color: #585858;
+  font-size: 14px;
+  line-height: 16px;
 }
 
 .btn-success.dropdown-toggle {
   background-color: #ffffff !important;
   border-color: #ffffff;
   box-shadow: 0 0 0 0.2rem #ffffff;
+  font-size: 14px;
 }
 .btn-success.dropdown-toggle:hover,
 .btn-success.dropdown-toggle:focus {
@@ -401,4 +409,12 @@
 .show > .btn-success.dropdown-toggle {
   box-shadow: 0 0 0 0 #ffff;
   background-color: #ffff !important;
+}
+
+.dropdown-menu {
+  margin-left: 5px !important;
+}
+
+.dropdown-item {
+  font-size: 14px;
 }

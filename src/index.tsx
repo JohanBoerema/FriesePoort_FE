@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom'
 import App from 'App/App'
 import reportWebVitals from './reportWebVitals'
 import { QueryClientProvider, QueryClient } from 'react-query'
+import { SnackbarProvider } from 'notistack'
 import { HelmetProvider } from 'react-helmet-async'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Provider as ReduxProvider } from 'react-redux'
 import { persistStore } from 'redux-persist'
 import { store } from './App/store'
+import { I18nextProvider } from 'react-i18next'
+import i18n from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import translationEN from './Translatetion/en.json'
+import translationNL from './Translatetion/nl.json'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import './Styles/global.scss'
@@ -27,13 +33,47 @@ const queryClient = new QueryClient({
 
 let persistor = persistStore(store)
 
+i18n.use(LanguageDetector).init({
+  resources: {
+    en: translationEN,
+    nl: translationNL,
+  },
+  fallbackLng: 'en',
+  debug: true,
+
+  // have a common namespace used around the full app
+  ns: ['translations'],
+  defaultNS: 'translations',
+
+  keySeparator: false, // we use content as keys
+
+  interpolation: {
+    escapeValue: false, // not needed for react!!
+    formatSeparator: ',',
+  },
+
+  react: {
+    wait: true,
+  },
+})
+
 ReactDOM.render(
   <React.StrictMode>
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
-            <App />
+            <I18nextProvider i18n={i18n}>
+              <SnackbarProvider
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                maxSnack={3}
+              >
+                <App />
+              </SnackbarProvider>
+            </I18nextProvider>
           </QueryClientProvider>
         </HelmetProvider>
       </PersistGate>

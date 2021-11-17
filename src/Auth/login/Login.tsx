@@ -10,9 +10,11 @@ import LoginSideImage from '../../Images/img_admin_side.png'
 import Logo from '../../Images/logo.svg'
 import { FormDataItem, FetchLoginDataResponse } from './types'
 import { useIsMounted, HOME_URL } from 'Lib'
+import { useTranslation } from 'react-i18next'
 import './styles.scss'
 
 export function Login() {
+  const { t } = useTranslation()
   const history = useHistory()
   const dispatch = useDispatch()
   const { setSafely } = useIsMounted()
@@ -51,13 +53,11 @@ export function Login() {
         setSafely(setErrorMessage, null)
         setSafely(setIsLoading, false)
         history.push(HOME_URL)
-        console.log('res', res)
         return
       })
       .catch((err: AxiosError) => {
         setSafely(setErrorMessage, err.response?.data.error_description)
         setSafely(setIsLoading, false)
-        console.log('22222', err.response)
       })
   }
 
@@ -81,34 +81,36 @@ export function Login() {
                 </div>
                 <form className="col g-3 px-5" onSubmit={handleSubmit(onSubmit)}>
                   <div className="col-auto mb-4 position-relative">
-                    <label className="position-absolute bg-white login_label">Email</label>
+                    <label className="position-absolute bg-white login_label">{t('Email')}</label>
                     <input
                       type="email"
                       className="form-control"
                       id="userName"
-                      placeholder="E-mail"
+                      placeholder={t('Email')}
                       required
                       {...register('userName')}
                     />
                   </div>
                   <div className="col-auto mb-4 position-relative">
-                    <label className="position-absolute bg-white login_label">Password</label>
+                    <label className="position-absolute bg-white login_label">
+                      {t('Password')}
+                    </label>
                     <input
                       type="password"
                       className="form-control"
                       id="password"
-                      placeholder="Password"
+                      placeholder={t('Password')}
                       required
                       {...register('password')}
                     />
                   </div>
                   <div className="col-auto">
                     <button type="submit" className="btn btn-primary w-100">
-                      LogIn
+                      {t('Login')}
                     </button>
                     <p className="text-xs-center" style={{ marginTop: 10 }}>
                       <Link to="/forgot-password" className="login_forgot">
-                        Forgot Password
+                        {t('Forgot Password?')}
                       </Link>
                     </p>
                   </div>

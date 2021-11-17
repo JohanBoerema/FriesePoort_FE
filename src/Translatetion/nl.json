@@ -1,0 +1,16 @@
+{
+  "translations": {
+    "Taken": "Taken",
+    "Users": "Gebruikers",
+    "Add User": "Voeg gebruiker",
+    "Save": "Opslaan",
+    "Email": "E-mail",
+    "Password": "Wachtwoord",
+    "ConfirmPassword": "Bevestig wachtwoord",
+    "PhoneNumber": "Telefoonnummer",
+    "Role": "Rollen",
+    "Login": "Aanmelden",
+    "Forgot Password?": "Wachtwoord vergeten?",
+    "A user was successfully added!": "Een gebruiker is succesvol toegevoegd!"
+  }
+}

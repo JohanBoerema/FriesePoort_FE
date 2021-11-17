@@ -13,7 +13,8 @@ export function useAxios(timeout: number = 5000) {
     baseURL: apiUrl,
     timeout: timeout,
     headers: {
-      token: token,
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
     },
   }
 

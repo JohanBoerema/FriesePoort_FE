@@ -20,12 +20,13 @@ export function DashboardLayout(props: TemplateProps) {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="vh-100 d-flex">
+        <div className="vh-100">
           <Sidebar />
-          <div className="col">
+          <div className="col" style={{ paddingLeft: '280px' }}>
             <Header />
             {children}
           </div>
+          <div className="fade-display"></div>
         </div>
       )}
     </>

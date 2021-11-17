@@ -9,18 +9,25 @@ import { LOGIN_URL } from 'Lib'
 import Logo from '../../../Images/logo.svg'
 import Avatar from '../../../Images/avatar.jpg'
 import './styles.scss'
+// @ts-ignore
+import { useTranslation } from 'react-i18next'
 
 export function Header() {
   const userName = useSelector((state: AppState) => state.user.userName)
+  const [language, setLanguage] = useState({ value: 'en', label: 'En' })
+
+  const { t, i18n } = useTranslation()
   const history = useHistory()
   const dispatch = useDispatch()
+
   const langOption = [
-    { value: 'en_US', label: 'En' },
-    { value: 'nl_BE', label: 'Nl' },
+    { value: 'en', label: 'En' },
+    { value: 'nl', label: 'Nl' },
   ]
 
-  const changeLanguage = (val) => {
-    console.log(val)
+  const selectLanguage = (val) => {
+    setLanguage(val)
+    i18n.changeLanguage(val.value)
   }
 
   const logOut = () => {
@@ -56,15 +63,15 @@ export function Header() {
             name="lan"
             options={langOption}
             className="select-lang-class"
-            value={{ label: 'en_US', value: 'En' }}
-            onChange={(val) => changeLanguage(val)}
+            value={language}
+            onChange={(val) => selectLanguage(val)}
           />
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ color: '#585858' }}>
               {userName}
             </Dropdown.Toggle>
             <Dropdown.Menu style={{ marginLeft: 15 }}>
-              <Dropdown.Item onClick={() => logOut()}>Logout</Dropdown.Item>
+              <Dropdown.Item onClick={() => logOut()}>{t('LogOut')}</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

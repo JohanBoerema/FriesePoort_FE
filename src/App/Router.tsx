@@ -4,15 +4,9 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { TakenPage, UsersPage } from 'Pages'
 import { Login } from 'Auth'
 import { Register } from 'Auth'
-import { DashboardLayout } from 'UI'
 import { GuardedRoute } from 'types'
 import { AppState } from 'App/reducers'
 import { ExpiryGuard, LOGIN_URL, SIGNUP_URL, HOME_URL, USERS_URL } from 'Lib'
-/**
- * Auth Pages
- */
-
-// import { Register, Login, Logout, VerifyAccount, ResetPassword, RequestReset } from 'Auth'
 
 function Guarded(props: GuardedRoute) {
   const { path, exact, component } = props
@@ -29,22 +23,22 @@ function Guarded(props: GuardedRoute) {
 }
 
 export function Router() {
+  const loggedIn = useSelector((state: AppState) => state.auth.loggedIn)
   return (
     <BrowserRouter>
-      {/* <Layout> */}
       <Route>
         <Switch>
+          <Route exact path="/">
+            {loggedIn ? <Redirect to={HOME_URL} /> : <Redirect to={LOGIN_URL} />}
+          </Route>
           {/* Auth Routes */}
           <Route path={LOGIN_URL} exact component={Login} />
           <Route path={SIGNUP_URL} exact component={Register} />
           {/* Dashboard Route */}
-          {/* <DashboardLayout title="Dashboard"> */}
           <Guarded path={HOME_URL} exact component={TakenPage} />
           <Guarded path={USERS_URL} exact component={UsersPage} />
-          {/* </DashboardLayout> */}
         </Switch>
       </Route>
-      {/* </Layout> */}
     </BrowserRouter>
   )
 }

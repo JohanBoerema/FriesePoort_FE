@@ -1,11 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../../../Images/logo.svg'
+import { useTranslation } from 'react-i18next'
+
 import './styles.scss'
 
 export function Sidebar() {
+  const { t } = useTranslation()
   return (
-    <div className="side-bar__div">
+    <div className="vh-100 side-bar__div">
       <aside className="sidebar">
         <a href="/" className="sidebar__logo">
           <img src={Logo} alt="appzmakerz"></img>
@@ -36,7 +39,7 @@ export function Sidebar() {
                     />
                   </svg>
                 </span>
-                <span>Taken</span>
+                <span>{t('Taken')}</span>
               </Link>
             </li>
             <li id="2" className="nav-item">
@@ -69,7 +72,7 @@ export function Sidebar() {
                     />
                   </svg>
                 </span>
-                <span>Users</span>
+                <span>{t('Users')}</span>
               </Link>
             </li>
           </ul>

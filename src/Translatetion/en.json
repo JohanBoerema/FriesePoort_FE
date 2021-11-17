@@ -1,0 +1,16 @@
+{
+  "translations": {
+    "Taken": "Taken",
+    "Users": "Users",
+    "Add User": "Add User",
+    "Save": "Save",
+    "Email": "E-mail",
+    "Password": "Password",
+    "ConfirmPassword": "ConfirmPassword",
+    "PhoneNumber": "PhoneNumber",
+    "Role": "Role",
+    "Login": "Login",
+    "Forgot Password?": "Forgot Password?",
+    "A user was successfully added!": "A user was successfully added!"
+  }
+}

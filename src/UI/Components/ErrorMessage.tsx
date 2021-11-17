@@ -7,8 +7,8 @@ export function ErrorMessage(props: errorMessageProps) {
   return (
     <div className="alert alert-danger" style={{ zIndex: 99 }}>
       <strong>
-        <i className="fas fa-exclamation-triangle"></i>
-        {errorMessage}
+        <i className="fas fa-exclamation-triangle" style={{ color: '#842029' }}></i>
+        {` ${errorMessage}`}
       </strong>
     </div>
   )
