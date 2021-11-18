@@ -349,8 +349,8 @@ export function TakenPage() {
       <Template title={t('Taken')}>
         <div className="table-container px-4 mt-5">
           <div className="table-responsive mt-4">
-            <table id="user-table" className="mb-1 table">
-              <thead className="table-light">
+            <table id="user-table" className="mb-1 table table-striped">
+              <thead>
                 <tr>
                   <th>{t('Deelnemernummer')}</th>
                   <th>{t('Deelnemernaam')}</th>
@@ -387,13 +387,13 @@ export function TakenPage() {
                 <ThreeBounce size={15} color="#585858" />
               </div>
             )}
-            <Pagination
-              recordNum={initTakenData.length}
-              getData={(pageSize: number, page: number) =>
-                changePaginationUserData(pageSize, page, initTakenData)
-              }
-            />
           </div>
+          <Pagination
+            recordNum={initTakenData.length}
+            getData={(pageSize: number, page: number) =>
+              changePaginationUserData(pageSize, page, initTakenData)
+            }
+          />
         </div>
       </Template>
     </DashboardLayout>

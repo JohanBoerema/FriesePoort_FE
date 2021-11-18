@@ -22,7 +22,7 @@ export function DashboardLayout(props: TemplateProps) {
       ) : (
         <div className="vh-100">
           <Sidebar />
-          <div className="col" style={{ paddingLeft: '280px' }}>
+          <div className="col main-container">
             <Header />
             {children}
           </div>

@@ -139,6 +139,16 @@ td {
   color: #585858;
 }
 
+.table-responsive {
+  @media (min-width: 1280px) {
+    max-height: 420px;
+  }
+
+  @media (min-width: 1536px) {
+    max-height: 600px;
+  }
+}
+
 .btn-primary {
   background-color: #4697d1;
   border-color: #4697d1;

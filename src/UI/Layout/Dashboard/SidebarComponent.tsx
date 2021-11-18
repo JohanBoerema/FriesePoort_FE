@@ -8,7 +8,7 @@ import './styles.scss'
 export function Sidebar() {
   const { t } = useTranslation()
   return (
-    <div className="vh-100 side-bar__div">
+    <div className="side-bar__div">
       <aside className="sidebar">
         <a href="/" className="sidebar__logo">
           <img src={Logo} alt="appzmakerz"></img>

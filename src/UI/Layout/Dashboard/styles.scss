@@ -1,7 +1,13 @@
+.main-container {
+  @media (min-width: 1300px) {
+    padding-left: 280px;
+  }
+}
 .side-bar__div {
   @media (min-width: 1300px) {
     width: 280px;
     position: absolute;
+    height: 100vh;
   }
   .sidebar {
     position: absolute;
