@@ -63,37 +63,6 @@ const PaginatedPage = createUltimatePagination({
 export function Pagination(props) {
   const [page, setPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(20)
-
-  useEffect(() => {
-    if (page === 1) $('.pagination-botton.previous').addClass('hiden')
-  }, [page])
-
-  const onPageChange = (currentPage: number) => {
-    const { recordNum } = props
-    const pageNum = String(recordNum / pageSize)
-    if (currentPage === 1) {
-      $('.pagination-botton.previous').addClass('hiden')
-    } else {
-      $('.pagination-botton.previous').removeClass('hiden')
-    }
-    if (currentPage === parseInt(pageNum)) {
-      $('.pagination-botton.next').addClass('hiden')
-    } else {
-      $('.pagination-botton.next').removeClass('hiden')
-    }
-    setPage(currentPage)
-    getData(pageSize, currentPage)
-  }
-
-  const changePageLength = (evt) => {
-    setPageSize(evt.target.value)
-    getData(evt.target.value, page)
-  }
-
-  const getData = (pageSize: number, page: number) => {
-    props.getData(Number(pageSize), page)
-  }
-
   const { recordNum } = props
 
   let totalPage = 1
@@ -104,8 +73,37 @@ export function Pagination(props) {
     totalPage = parseInt(pageNum) ? parseInt(pageNum) : 1
   }
 
+  useEffect(() => {
+    if (page === 1) $('.pagination-botton.previous').addClass('hiden')
+  })
+
+  const onPageChange = (currentPage: number) => {
+    if (currentPage === 1) {
+      $('.pagination-botton.previous').addClass('hiden')
+    } else {
+      $('.pagination-botton.previous').removeClass('hiden')
+    }
+    if (currentPage === totalPage) {
+      $('.pagination-botton.next').addClass('hiden')
+    } else {
+      $('.pagination-botton.next').removeClass('hiden')
+    }
+    setPage(currentPage)
+    getData(pageSize, currentPage)
+  }
+
+  const changePageLength = (evt) => {
+    setPageSize(evt.target.value)
+    setPage(1)
+    getData(evt.target.value, 1)
+  }
+
+  const getData = (pageSize: number, page: number) => {
+    props.getData(Number(pageSize), page)
+  }
+
   return (
-    <div>
+    <div className="py-3">
       {recordNum > 0 && (
         <div className="pagination">
           <span className="pagination-info">{'Show'}</span>

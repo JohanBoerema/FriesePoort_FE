@@ -6,17 +6,19 @@ import { Link, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { showSlideForm, useAxios, useIsMounted } from 'Lib'
 import { useForm } from 'react-hook-form'
-import { UserFormData } from './types'
+import { UserFormData, UserDataItem, UserRoleItem, UpdateUserItem } from './types'
 import { useMutation, useQueryClient } from 'react-query'
 import { ErrorMessage } from 'UI/Components'
 import './styles.scss'
 
 interface AddUserProps {
   closeModal: () => void
+  editUser: UserDataItem | undefined
+  userRoles: UserRoleItem[]
 }
 
 export function AddUser(props: AddUserProps) {
-  const { closeModal } = props
+  const { closeModal, editUser, userRoles } = props
   const { t } = useTranslation()
   const axios = useAxios()
   const { enqueueSnackbar } = useSnackbar()
@@ -24,22 +26,20 @@ export function AddUser(props: AddUserProps) {
   const queryClient = useQueryClient()
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [flash, setFlash] = useState<boolean>(false)
-  // const axios = useAxios()
-  // const role = useSelector((state: AppState) => state.user.role)
-
-  // const screen = async (): Promise<DashboardScreen> => {
-  //   const { data } = await axios.get('/v1/dashboard_screen')
-  //   return data
-  // }
-  // const { isLoading, data: dashboardData } = useQuery(QueryKey.dashboardScreen, screen)
 
   const { register, handleSubmit } = useForm()
 
   const onSubmit = (data: UserFormData) => {
-    enqueueSnackbar('A user was successfully added!', {
-      variant: 'success',
-    })
-    // mutationPostUser.mutate(data)
+    if (!editUser) {
+      mutationPostUser.mutate(data)
+    } else {
+      const editParam: UpdateUserItem = {
+        Id: editUser.Id,
+        PhoneNumber: data.PhoneNumber,
+        RoleName: data.RoleName,
+      }
+      mutationUpdateUser.mutate(editParam)
+    }
   }
 
   const postUser = async (params: object): Promise<void> => {
@@ -75,6 +75,23 @@ export function AddUser(props: AddUserProps) {
     },
   })
 
+  const updateUser = async (params: UpdateUserItem): Promise<UpdateUserItem> => {
+    let data: any = []
+    data = await axios.post(`/api/users/Update`, params)
+    return data
+  }
+
+  const mutationUpdateUser = useMutation(updateUser, {
+    onSuccess: (data) => {
+      closeModal()
+      queryClient.refetchQueries([QueryKey.usersScreen])
+      enqueueSnackbar(t('A user was successfully added!'), {
+        variant: 'success',
+      })
+    },
+    onError: (err: AxiosError) => {},
+  })
+
   return (
     <div className="slide-form__controls open">
       <div className="mb-4">
@@ -85,42 +102,50 @@ export function AddUser(props: AddUserProps) {
         ></i>
       </div>
       <div className="px-3">
-        <div className="mb-5 fs-3 fw-bold">{t('Add User')}</div>
+        <p className="mb-5 fs-3 fw-bold">{!editUser ? t('Add User') : t('Edit User')}</p>
         {flash && <ErrorMessage errorMessage={errorMessage} />}
         <form className="col g-3" onSubmit={handleSubmit(onSubmit)}>
-          <div className="col-auto mb-4 position-relative">
-            <label className="position-absolute bg-white login_label">{t('Email')}</label>
-            <input
-              type="email"
-              className="form-control"
-              id="userName"
-              placeholder={t('Email')}
-              required
-              {...register('Email')}
-            />
-          </div>
-          <div className="col-auto mb-4 position-relative">
-            <label className="position-absolute bg-white login_label">{t('Password')}</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder={t('Password')}
-              required
-              {...register('password')}
-            />
-          </div>
-          <div className="col-auto mb-4 position-relative">
-            <label className="position-absolute bg-white login_label">{t('ConfirmPassword')}</label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmPassword"
-              placeholder={t('ConfirmPassword')}
-              required
-              {...register('confirmPassword')}
-            />
-          </div>
+          {!editUser && (
+            <div className="col-auto mb-4 position-relative">
+              <label className="position-absolute bg-white login_label">{t('Email')}</label>
+              <input
+                type="email"
+                className="form-control"
+                id="userName"
+                placeholder={t('Email')}
+                required
+                {...register('Email')}
+              />
+            </div>
+          )}
+          {!editUser && (
+            <div className="col-auto mb-4 position-relative">
+              <label className="position-absolute bg-white login_label">{t('Password')}</label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder={t('Password')}
+                required
+                {...register('password')}
+              />
+            </div>
+          )}
+          {!editUser && (
+            <div className="col-auto mb-4 position-relative">
+              <label className="position-absolute bg-white login_label">
+                {t('ConfirmPassword')}
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="confirmPassword"
+                placeholder={t('ConfirmPassword')}
+                required
+                {...register('confirmPassword')}
+              />
+            </div>
+          )}
           <div className="col-auto mb-4 position-relative">
             <label className="position-absolute bg-white login_label">{t('PhoneNumber')}</label>
             <input
@@ -129,6 +154,7 @@ export function AddUser(props: AddUserProps) {
               id="phoneNumber"
               placeholder={t('PhoneNumber')}
               required
+              defaultValue={editUser ? editUser.PhoneNumber : ''}
               {...register('PhoneNumber')}
             />
           </div>
@@ -140,8 +166,14 @@ export function AddUser(props: AddUserProps) {
               {...register('RoleName')}
               required
             >
-              <option value="Administrator">Administrator</option>
-              <option value="Orderverwerker">Orderverwerker</option>
+              {userRoles?.map((role: UserRoleItem, index: number) => (
+                <option
+                  selected={editUser?.RoleName === role.Name ? true : false}
+                  value={role.Name}
+                >
+                  {role.Name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="col-auto">

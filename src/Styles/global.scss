@@ -125,15 +125,21 @@ th {
 
 th,
 td {
-  padding: 10px;
+  padding: 12px !important;
   border-bottom: 1px solid #eaf0f2;
+  vertical-align: middle;
 }
 
 .table > :not(:first-child) {
   border-top: 1px solid #e3e3e3;
 }
 
-.btn {
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-accent-bg: rgb(143 141 141 / 5%);
+  color: #585858;
+}
+
+.btn-primary {
   background-color: #4697d1;
   border-color: #4697d1;
   border-radius: 4px;
@@ -142,8 +148,31 @@ td {
     background-color: #226494;
     border-color: #226494;
   }
-  .fa-plus {
+  i {
     margin-right: 10px;
     color: white;
   }
+}
+
+.btn-outline-secondary {
+  color: #585858;
+  i {
+    color: #585858;
+  }
+  &:hover {
+    background-color: #707375;
+    border-color: #707375;
+    i {
+      color: #ffffff;
+    }
+  }
+}
+
+.active-icon {
+  color: #4697d1;
+  font-size: 20px;
+}
+
+.inactive-icon {
+  font-size: 20px;
 }

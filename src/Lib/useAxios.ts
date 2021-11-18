@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 // import { LOGOUT_URL } from 'Lib'
 import useAuthToken from 'Auth/useAuthToken'
 
-export function useAxios(timeout: number = 5000) {
+export function useAxios(timeout: number = 500000000) {
   const history = useHistory()
   const apiUrl = process.env.REACT_APP_API
 
